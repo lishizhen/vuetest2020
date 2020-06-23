@@ -4,6 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div id="app">
+      {{title}} {{total}}
+      <h2>{{totalcount}}</h2>
+    </div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            title: "hello",
+            totalcount: "",
+          };
+        },
+        computed: {
+          total() {
+            return this.title.length + "个字符";
+          },
+        },
+        // 默认情况下watch不会执行，初始化不执行，title变了才会执行
+        // watch: {
+        //   title(newValue, oldValue) {
+        //     this.totalcount = newValue + "watch到了";
+        //   },
+        // },
+        watch: {
+          title: {
+            immediate: true, // 立即执行一次
+            deep: true,
+            handler(newValue, oldValue) {
+              this.totalcount = newValue + "    >>>>watch到了";
+            },
+          },
+        },
+      });
+      setTimeout(() => {
+        app.title = "mua~ vue";
+      }, 1000);
+    </script>
+  </body>
 </html>
